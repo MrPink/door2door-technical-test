@@ -1,0 +1,51 @@
+version: '2'
+services:
+
+  ticker-api:
+    build: .
+    container_name: ticker-api
+    environment:
+      RACK_ENV: development
+      DATABASE_URL: "postgres://postgres:@ticker-pg/my_api_development"
+    depends_on:
+      - ticker-pg
+    ports:
+      - "3000:3000"
+    networks:
+      - ticker
+
+  ticker-worker:
+    build: .
+    container_name: ticker-worker
+    environment:
+      RACK_ENV: development
+      DATABASE_URL: "postgres://postgres:@ticker-pg/my_api_development"
+      REDIS_PUBLISH_URL: "redis://ticker-redis:6379/0"
+    depends_on:
+      - ticker-pg
+      - ticker-redis
+    command: bundle exec sidekiq -r ./app.rb
+    networks:
+      - ticker
+
+  ticker-pg:
+    image: postgres:9.4-alpine
+    container_name: ticker-postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - ticker
+
+  ticker-redis:
+    image: redis:3.0.7
+    container_name: ticker-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - ticker
+
+############################
+# networks
+############################
+networks:
+  ticker:
