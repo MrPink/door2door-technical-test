@@ -40,3 +40,19 @@ EOF
 output "ecr_url" {
   value = "${aws_ecr_repository.ecr.repository}"
 }
+
+resource "template_file" "makefile" {
+  template   = "makefile.tpl"
+  vars {
+    ecr_url  = "${module.ecr.ecr_url}"
+  }
+}
+
+resource "null_resource" "ssh_cfg" {
+  triggers {
+    template_rendered = "${ data.template_file.makefile.rendered }"
+  }
+  provisioner "local-exec" {
+    command = "echo '${ data.template_file.ssh_cfg.rendered }' > ../../../makefile"
+  }
+}
