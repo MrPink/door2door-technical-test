@@ -7,8 +7,10 @@ services:
     environment:
       RACK_ENV: development
       DATABASE_URL: "postgres://postgres:@ticker-pg/my_api_development"
+      REDIS_URL: "redis://ticker-redis:6379/0"
     depends_on:
       - ticker-pg
+      - ticker-redis
     ports:
       - "3000:3000"
     networks:
@@ -20,7 +22,7 @@ services:
     environment:
       RACK_ENV: development
       DATABASE_URL: "postgres://postgres:@ticker-pg/my_api_development"
-      REDIS_PUBLISH_URL: "redis://ticker-redis:6379/0"
+      REDIS_URL: "redis://ticker-redis:6379/0"
     depends_on:
       - ticker-pg
       - ticker-redis

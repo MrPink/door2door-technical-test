@@ -11,7 +11,3 @@ DB ||= if ENV["RACK_ENV"] == "production"
        else
          Sequel.connect("postgres://postgres@ticker-pg/my_api_#{ENV['RACK_ENV']}")
        end
-
-Sidekiq.configure_server do |config|
-  config.redis = { url: ENV["REDIS_PUBLISH_URL"] }
-end
