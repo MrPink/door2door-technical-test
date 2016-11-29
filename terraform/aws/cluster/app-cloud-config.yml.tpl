@@ -33,7 +33,7 @@ coreos:
 			timeoutstartsec=0
 			execstartpre=-/usr/bin/docker kill ticker-app
 			execstartpre=-/usr/bin/docker rm ticker-app
-			execstartpre=/usr/bin/docker pull ${ECR_URL}:ticker:latest
+			execstartpre=/usr/bin/docker pull NEEDS ECR URL:ticker:latest
 			execstart=/usr/bin/docker run --env-file /var/tmp/environment.conf --name ticker-app ticker
 			execstop=/usr/bin/docker stop ticker-app
 	- name: "ticker-worker.service"
@@ -48,6 +48,6 @@ coreos:
 			timeoutstartsec=0
 			execstartpre=-/usr/bin/docker kill ticker-app
 			execstartpre=-/usr/bin/docker rm ticker-app
-			execstartpre=/usr/bin/docker pull ${ECR_URL}/ticker:latest
+			execstartpre=/usr/bin/docker pull NEEDS ECR URL/ticker:latest
 			execstart=/usr/bin/docker run -env-file /var/tmp/environment.conf --name ticker-worker ticker /bin/sh -c "bundle exec sidekiq -r ./app.rb"
 			execstop=/usr/bin/docker stop ticker-worker
