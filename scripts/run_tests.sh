@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker exec -it ticker-api bundle exec rspec spec 
+docker exec -it ticks-api bundle exec rspec spec 

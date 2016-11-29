@@ -10,18 +10,18 @@ ENV BUNDLER_VERSION 1.13.6
 RUN gem install bundler --version "$BUNDLER_VERSION" --no-rdoc --no-ri
 
 # Create application user
-RUN addgroup -g 1000 ticker && adduser -G ticker -D -H -u 1000 ticker
+RUN addgroup -g 1000 ticks && adduser -G ticks -D -H -u 1000 ticks
 
-RUN mkdir /ticker
+RUN mkdir /ticks
 RUN mkdir /gems
 
-COPY api /ticker
-WORKDIR /ticker
+COPY api /ticks
+WORKDIR /ticks
 
-RUN chown -R ticker /ticker
-RUN chown -R ticker /gems
+RUN chown -R ticks /ticks
+RUN chown -R ticks /gems
 
-USER ticker
+USER ticks
 
 ENV BUNDLE_PATH /gems
 RUN bundle install --deployment --path /gems

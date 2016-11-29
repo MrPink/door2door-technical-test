@@ -4,12 +4,12 @@ variable "private_subnets" {}
 variable "default_security_group" {}
 
 # DB subnet
-resource "aws_db_subnet_group" "ticker" {
-    name = "db-ticker"
+resource "aws_db_subnet_group" "ticks" {
+    name = "db-ticks"
     description = "Internal subnets"
     subnet_ids  = ["${split(",", "${var.private_subnets}")}"]
     tags {
-        Name = "ticker DB subnet group"
+        Name = "ticks DB subnet group"
     }
 }
 
@@ -20,7 +20,7 @@ resource "aws_db_instance" "db" {
   instance_class       = "db.t2.medium"
   username             = "${var.postgres_user}"
   password             = "${var.postgres_password}"
-  db_subnet_group_name = "db-ticker"
+  db_subnet_group_name = "db-ticks"
   parameter_group_name = "default.postgres9.4"
   vpc_security_group_ids = ["${var.default_security_group}"]
   multi_az             = "false"

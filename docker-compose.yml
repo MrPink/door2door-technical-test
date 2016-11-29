@@ -1,53 +1,53 @@
 version: '2'
 services:
 
-  ticker-api:
+  ticks-api:
     build: .
-    container_name: ticker-api
+    container_name: ticks-api
     environment:
       RACK_ENV: development
-      DATABASE_URL: "postgres://postgres:@ticker-pg/my_api_development"
-      REDIS_URL: "redis://ticker-redis:6379/0"
+      DATABASE_URL: "postgres://postgres:@ticks-pg/my_api_development"
+      REDIS_URL: "redis://ticks-redis:6379/0"
     depends_on:
-      - ticker-pg
-      - ticker-redis
+      - ticks-pg
+      - ticks-redis
     ports:
       - "3000:3000"
     networks:
-      - ticker
+      - ticks
 
-  ticker-worker:
+  ticks-worker:
     build: .
-    container_name: ticker-worker
+    container_name: ticks-worker
     environment:
       RACK_ENV: development
-      DATABASE_URL: "postgres://postgres:@ticker-pg/my_api_development"
-      REDIS_URL: "redis://ticker-redis:6379/0"
+      DATABASE_URL: "postgres://postgres:@ticks-pg/my_api_development"
+      REDIS_URL: "redis://ticks-redis:6379/0"
     depends_on:
-      - ticker-pg
-      - ticker-redis
+      - ticks-pg
+      - ticks-redis
     command: bundle exec sidekiq -r ./app.rb
     networks:
-      - ticker
+      - ticks
 
-  ticker-pg:
+  ticks-pg:
     image: postgres:9.4-alpine
-    container_name: ticker-postgres
+    container_name: ticks-postgres
     ports:
       - "5432:5432"
     networks:
-      - ticker
+      - ticks
 
-  ticker-redis:
+  ticks-redis:
     image: redis:3.0.7
-    container_name: ticker-redis
+    container_name: ticks-redis
     ports:
       - "6379:6379"
     networks:
-      - ticker
+      - ticks
 
 ############################
 # networks
 ############################
 networks:
-  ticker:
+  ticks:

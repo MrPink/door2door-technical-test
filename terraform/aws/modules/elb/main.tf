@@ -1,10 +1,10 @@
-variable "elb_name" { default = "ticker-api-service" }
+variable "elb_name" { default = "ticks-api-service" }
 variable "health_check_target" { default = "HTTP:3000/" }
 variable "instances" {}
 variable "subnets" {}
 variable "security_groups" {}
 
-resource "aws_elb" "ticker-api-service" {
+resource "aws_elb" "ticks-api-service" {
   name                      = "${var.elb_name}"
   subnets                   = ["${split(",", var.subnets)}"]
   security_groups           = ["${var.security_groups}"]

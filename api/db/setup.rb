@@ -9,5 +9,5 @@ DB ||= if ENV["RACK_ENV"] == "production"
            "#{ENV['RDS_HOSTNAME']}:#{ENV['RDS_PORT']}/#{ENV['RDS_DB_NAME']}"
          )
        else
-         Sequel.connect("postgres://postgres@ticker-pg/my_api_#{ENV['RACK_ENV']}")
+         Sequel.connect("postgres://postgres@ticks-pg/my_api_#{ENV['RACK_ENV']}")
        end

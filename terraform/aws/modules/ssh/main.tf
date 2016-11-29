@@ -1,5 +1,5 @@
 # input variables
-variable "short_name" { default = "ticker" }
+variable "short_name" { default = "ticks" }
 variable "public_key_file" {}
 variable "private_key_file" {}
 variable "region" {}

@@ -1,5 +1,5 @@
 resource "aws_security_group" "bastion" {
-  name        = "ticker-bastion"
+  name        = "ticks-bastion"
   description = "Security group for bastion instances that allows SSH and VPN traffic from internet"
   vpc_id      = "${module.vpc.vpc_id}"
 
@@ -42,6 +42,6 @@ resource "aws_security_group" "bastion" {
   }
 
   tags {
-    Name = "ticker-bastion-sg"
+    Name = "ticks-bastion-sg"
   }
 }

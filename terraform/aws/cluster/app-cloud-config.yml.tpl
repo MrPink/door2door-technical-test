@@ -2,12 +2,12 @@
 write_file:
  	- path: "environment.conf"
     permissions: "0744"
-    owner: "ticker"
+    owner: "ticks"
     content: |
     	REDIS_URL="redis://${var.redis_url}""
-    	RDS_USERNAME="ticker"
+    	RDS_USERNAME="ticks"
     	RDS_PORT="5432"
-    	RDS_DB_NAME="ticker_production"
+    	RDS_DB_NAME="ticks_production"
     	RDS_HOSTNAME="${var.rds_hostname}"
 coreos:
 	 etcd2:
@@ -21,33 +21,33 @@ coreos:
     listen-client-urls: "http://0.0.0.0:2379,http://0.0.0.0:4001"
     listen-peer-urls: "http://$private_ipv4:2380,http://$private_ipv4:7001"
 	units:
-  - name: "ticker-app.service"
+  - name: "ticks-app.service"
   	command: "start"
     content: |
 			[unit]
-			description=ticker-app
+			description=ticks-app
 			after=docker.service
 			requires=docker.service
 
 			[service]
 			timeoutstartsec=0
-			execstartpre=-/usr/bin/docker kill ticker-app
-			execstartpre=-/usr/bin/docker rm ticker-app
-			execstartpre=/usr/bin/docker pull NEEDS ECR URL:ticker:latest
-			execstart=/usr/bin/docker run --env-file /var/tmp/environment.conf --name ticker-app ticker
-			execstop=/usr/bin/docker stop ticker-app
-	- name: "ticker-worker.service"
+			execstartpre=-/usr/bin/docker kill ticks-app
+			execstartpre=-/usr/bin/docker rm ticks-app
+			execstartpre=/usr/bin/docker pull NEEDS ECR URL:ticks:latest
+			execstart=/usr/bin/docker run --env-file /var/tmp/environment.conf --name ticks-app ticks
+			execstop=/usr/bin/docker stop ticks-app
+	- name: "ticks-worker.service"
   	command: "start"
     content: |
 			[unit]
-			description=ticker-worker
+			description=ticks-worker
 			after=docker.service
 			requires=docker.service
 
 			[service]
 			timeoutstartsec=0
-			execstartpre=-/usr/bin/docker kill ticker-app
-			execstartpre=-/usr/bin/docker rm ticker-app
-			execstartpre=/usr/bin/docker pull NEEDS ECR URL/ticker:latest
-			execstart=/usr/bin/docker run -env-file /var/tmp/environment.conf --name ticker-worker ticker /bin/sh -c "bundle exec sidekiq -r ./app.rb"
-			execstop=/usr/bin/docker stop ticker-worker
+			execstartpre=-/usr/bin/docker kill ticks-app
+			execstartpre=-/usr/bin/docker rm ticks-app
+			execstartpre=/usr/bin/docker pull NEEDS ECR URL/ticks:latest
+			execstart=/usr/bin/docker run -env-file /var/tmp/environment.conf --name ticks-worker ticks /bin/sh -c "bundle exec sidekiq -r ./app.rb"
+			execstop=/usr/bin/docker stop ticks-worker

@@ -4,7 +4,7 @@ resource "aws_ecr_repository" "ecr" {
   name = "${var.cluster_name}"
 }
 
-resource "aws_ecr_repository_policy" "ticker" {
+resource "aws_ecr_repository_policy" "ticks" {
   repository = "${aws_ecr_repository.ecr.name}"
   policy = <<EOF
 {
