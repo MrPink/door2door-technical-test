@@ -15,9 +15,7 @@ resource "template_file" "app_cloud_init" {
   vars {
     cluster_name = "${var.cluster_name}"
     region       = "${var.region}"
-    ECR_URL      = "${module.ecr.ecr_url}"
     rds_hostname = "${module.rds.rds_hostname}"
-
   }
 }
 

@@ -49,11 +49,6 @@ module "elasticache" {
   cluster_name = "${var.cluster_name}"
 }
 
-module "ecr" {
-  source = "../modules/ecr"
-  cluster_name = "${var.cluster_name}"
-}
-
 module "rds" {
   private_subnets = "${module.vpc.private_subnets}"
   default_security_group = "${module.sg-default.security_group_id}"
